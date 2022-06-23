@@ -1,4 +1,4 @@
-# Turnover test
+# test
 
 In frontend has been developed with react and expo and it can be builded for WEB, IOS and ANDROID.
 
