@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "expo web",
+    "start": "yarn run compile && bin/setup",
     "ios": "expo start --ios",
     "android": "expo start --android",
     "test:e2e": "./bin/downloadExpoApp.sh && detox test --configuration ios.sim.expo",
