@@ -22,6 +22,6 @@ export interface ApiConfig {
  * The default configuration for the app.
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
-  url: API_URL || "https://8001-hssant-bnbbankapi-68r76zalybp.ws-us47.gitpod.io",
+  url: API_URL || "https://api-herbert.gwdesenvolvimento.com.br/api/status",
   timeout: 10000,
 }

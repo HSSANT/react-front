@@ -108,6 +108,7 @@ export const RegisterScreen: FC<StackScreenProps<NavigatorParamList, "register">
               <TextField
                 inputStyle={styles.input}
                 placeholderTx="loginScreen.password"
+                secureTextEntry={true}
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
