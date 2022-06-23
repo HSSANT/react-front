@@ -22,6 +22,6 @@ export interface ApiConfig {
  * The default configuration for the app.
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
-  url: API_URL || "https://api-herbert.gwdesenvolvimento.com.br/api/status",
+  url: API_URL || "https://api-herbert.gwdesenvolvimento.com.br",
   timeout: 10000,
 }
