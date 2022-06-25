@@ -2,6 +2,7 @@
 
 # build folders
 .gradle
+.expo
 
 # dependencies
 /node_modules
