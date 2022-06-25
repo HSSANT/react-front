@@ -33,20 +33,16 @@ export const ChecksScreen: FC<StackScreenProps<NavigatorParamList, "CHECKS CONTR
       navigation.navigate("CheckDetails")
     }
     useEffect(() => {
-      setupRootStore()
-        .then(setRootStore)
-        .then((res) => {
-          transactionStore.transactionsPending().then((data: any) => {
-            if ((data as any)?.kind == "token-expired") {
-              authenticationStore.logout()
-            }
-            if ((data as any)?.kind) {
-              return
-            }
-            const dataFilter = data.sort((a, b) => (a.created_at > b.created_at ? -1 : 1))
-            setFetchedData(dataFilter)
-          })
-        })
+      transactionStore.transactionsPending().then((data: any) => {
+        if ((data as any)?.kind == "token-expired") {
+          authenticationStore.logout()
+        }
+        if ((data as any)?.kind) {
+          return
+        }
+        const dataFilter = data.sort((a, b) => (a.created_at > b.created_at ? -1 : 1))
+        setFetchedData(dataFilter)
+      })
     }, [allTransactions])
     return (
       <Screen style={styles.container} unsafe>

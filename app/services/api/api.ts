@@ -2,7 +2,6 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
-import { loadString } from "../../utils/storage"
 
 /**
  * Manages all requests to the API.
@@ -36,17 +35,14 @@ export class Api {
    */
   setup() {
     // construct the apisauce instance
-    loadString("accessToken").then((res) => {
       this.apisauce = create({
         baseURL: this.config.url,
         timeout: this.config.timeout,
         headers: {
           Accept: "application/json",
           "Access-Control-Allow-Origin": "*",
-          Authorization: "Bearer " + res,
-        },
+        }
       })
-    })
   }
 
   /**

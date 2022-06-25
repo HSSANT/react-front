@@ -1,5 +1,5 @@
 import { ApiResponse } from "apisauce"
-import { saveString } from "../../utils/storage"
+import { loadString, saveString } from "../../utils/storage"
 import { Api } from "./api"
 import { getGeneralApiProblem } from "./api-problem"
 import { TransactionsResult, TransactionResult } from "./api.types"
@@ -9,6 +9,11 @@ export class TransactionApi {
 
   constructor(api: Api) {
     this.api = api
+    console.log('chegou no constructor');
+    loadString("accessToken").then(accessToken=>{
+      console.log('accessToken',accessToken);
+      this.api.apisauce.setHeader('Authorization', `Bearer ${accessToken}`)
+    });
   }
 
   async transactionDetail(id: string): Promise<TransactionResult> {

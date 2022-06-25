@@ -73,17 +73,8 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "BNB Bank">> = 
     const [selectedDate, setSelectedDate] = useState(new Date())
     const [formattedDate, setFormattedDate] = useState("")
     const [fetchedData, setFetchedData] = useState([])
-    const [rootStore, setRootStore] = useState<RootStore | undefined>(undefined)
-    useEffect(() => {
-      ;(async () => {
-        setupRootStore().then(setRootStore)
-      })()
-    }, [])
 
     useEffect(() => {
-      setupRootStore()
-        .then(setRootStore)
-        .then((res) => {
           const stringMonth = returnStringMonth(selectedDate.getMonth())
           loadString("id").then((storedUserName) => {
             transactionStore
@@ -110,7 +101,6 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "BNB Bank">> = 
               })
           })
           setFormattedDate(`${stringMonth}, ${selectedDate.getFullYear()}`)
-        })
     }, [selectedDate, incomeValue, expenseValue])
 
     const showDatePicker = () => {
