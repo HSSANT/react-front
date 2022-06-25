@@ -3,6 +3,9 @@
 # build folders
 .gradle
 .expo
+.firebase
+public
+web-build
 
 # dependencies
 /node_modules
