@@ -1,5 +1,5 @@
-import React, { FC, useEffect, useState } from "react"
-import { StyleSheet } from "react-native"
+import React, { FC, useEffect, useReducer, useState } from "react"
+import { Platform, StyleSheet } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { CardItem, Icon, Screen, Text } from "../../components"
@@ -15,7 +15,8 @@ import { FAB } from "react-native-elements"
 import { NavigationContainer } from "@react-navigation/native"
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
 import { IncomesTab } from "./incomes/incomes-tab"
-
+import { DateSingleInput } from "@datepicker-react/styled"
+const isWeb = Platform.OS === "web"
 const styles = StyleSheet.create({
   buttonAddExpense: {
     alignItems: "center",
@@ -41,7 +42,21 @@ const styles = StyleSheet.create({
 })
 
 const Tab = createMaterialTopTabNavigator()
+const initialState = {
+  date: null,
+  showDatepicker: false,
+}
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "focusChange":
+      return { ...state, showDatepicker: action.payload }
+    case "dateChange":
+      return action.payload
+    default:
+      throw new Error()
+  }
+}
 export const ChecksScreen: FC<StackScreenProps<NavigatorParamList, "checks">> = observer(
   ({ navigation }) => {
     const [allTransactions, setAllTransactions] = useRecoilState(allTransactionsState)
@@ -49,6 +64,8 @@ export const ChecksScreen: FC<StackScreenProps<NavigatorParamList, "checks">> = 
     const { transactionStore } = useStores()
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
     const [formattedDate, setFormattedDate] = useState("")
+    const [state, dispatch] = useReducer(reducer, initialState)
+
     useEffect(() => {
       const stringMonth = returnStringMonth(selectedDate.getMonth())
       setFormattedDate(`${stringMonth}, ${selectedDate.getFullYear()}`)
@@ -70,15 +87,37 @@ export const ChecksScreen: FC<StackScreenProps<NavigatorParamList, "checks">> = 
     const handleClickAddCheck = () => {
       navigation.navigate("Check")
     }
-
-    return (
-      <Screen style={styles.container} backgroundColor={color.transparent} unsafe>
+    const returnDatePickerNative = () => {
+      return (
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
         />
+      )
+    }
+    const returnDatePickerWeb = () => {
+      return (
+        <>
+          <DateSingleInput
+            onDateChange={(data) => handleConfirm(data.date)}
+            onFocusChange={(focusedInput) =>
+              dispatch({ type: "focusChange", payload: focusedInput })
+            }
+            date={selectedDate} // Date or null
+            showDatepicker={isDatePickerVisible} // Boolean
+            onClose={hideDatePicker}
+          />
+        </>
+      )
+    }
+
+    return (
+      <Screen style={styles.container} backgroundColor={color.transparent} unsafe>
+        <div style={{ zIndex: 99, display: isDatePickerVisible ? "" : "none" }}>
+          {isWeb ? returnDatePickerWeb() : returnDatePickerNative()}
+        </div>
         <CardItem header={""} value={""}>
           <TouchableOpacity style={styles.dateButton} onPress={showDatePicker}>
             <Text style={styles.dateButtonText}>{formattedDate}</Text>

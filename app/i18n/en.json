@@ -32,6 +32,9 @@
     "signUp": "SIGN UP",
     "username": "username"
   },
+  "settingsScreen": {
+    "language": "Language"
+  },
   "purchaseScreen": {
     "amount": "AMOUNT",
     "date": "DATE",

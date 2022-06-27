@@ -60,7 +60,7 @@ function reducer(state, action) {
 
 export const ExpensesScreen: FC<StackScreenProps<NavigatorParamList, "expenses">> = observer(
   ({ navigation }) => {
-    const [setAllTransactions] = useRecoilState(allTransactionsState)
+    const [allTransactions, setAllTransactions] = useRecoilState(allTransactionsState)
     const { authenticationStore } = useStores()
     const { transactionStore } = useStores()
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false)

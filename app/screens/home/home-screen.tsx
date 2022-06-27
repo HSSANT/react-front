@@ -60,7 +60,7 @@ function reducer(state, action) {
 }
 
 export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "BNB Bank">> = observer(
-  ({ navigation }) => {
+  ({ route, navigation }) => {
     const [allTransactions, setAllTransactions] = useRecoilState(allTransactionsState)
     const { authenticationStore } = useStores()
     const [state, dispatch] = useReducer(reducer, initialState)
@@ -73,8 +73,10 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "BNB Bank">> = 
     const [selectedDate, setSelectedDate] = useState(new Date())
     const [formattedDate, setFormattedDate] = useState("")
     const [fetchedData, setFetchedData] = useState([])
-
+    console.log('home screen');
+    const shouldRefresh = route?.params
     useEffect(() => {
+      console.log('chegou no useEffect');
           const stringMonth = returnStringMonth(selectedDate.getMonth())
           loadString("id").then((storedUserName) => {
             transactionStore
@@ -101,7 +103,7 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "BNB Bank">> = 
               })
           })
           setFormattedDate(`${stringMonth}, ${selectedDate.getFullYear()}`)
-    }, [selectedDate, incomeValue, expenseValue])
+    }, [selectedDate, incomeValue, expenseValue, shouldRefresh])
 
     const showDatePicker = () => {
       setDatePickerVisibility(true)

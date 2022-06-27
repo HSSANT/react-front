@@ -21,9 +21,10 @@ export class AuthenticationApi {
       )
       let problem = getGeneralApiProblem(response)
       if (problem) return problem
+      this.api.apisauce.deleteHeader("Authorization");
+      this.api.apisauce.setHeader("Authorization", "Bearer " + response.data.access_token);
       return { kind: "ok", response }
     } catch (e) {
-      console.log("aqui")
       __DEV__ && console.tron.log(e.message)
       return { kind: "bad-data" }
     }

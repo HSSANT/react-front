@@ -67,7 +67,7 @@ export function getGeneralApiProblem(
         case 401:
           return { kind: "unauthorized" }
         case 403: {
-          if (response.data.status == "Token is Expired") return { kind: "token-expired" }
+          if (response.data?.status == "Token is Expired") return { kind: "token-expired" }
           else return { kind: "forbidden" }
         }
         case 404:

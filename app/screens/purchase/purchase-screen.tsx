@@ -154,13 +154,11 @@ export const PurchaseScreen: FC<StackScreenProps<NavigatorParamList, "purchase">
         const newPurchase = await transactionStore.newPurchase(newTransaction)
         setAllTransactions([...allTransactions, newPurchase])
         reset()
-        navigation.navigate("BNB Bank")
+        navigation.navigate("BNB Bank",{shouldRefresh:true})
       }
       else{
         setIsModalErrorVisible(true);
       }
-      console.log('aqui');
-      
     }
 
     const canMakePurchase = (amount: string) => {

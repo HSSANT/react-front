@@ -9,11 +9,6 @@ export class TransactionApi {
 
   constructor(api: Api) {
     this.api = api
-    console.log('chegou no constructor');
-    loadString("accessToken").then(accessToken=>{
-      console.log('accessToken',accessToken);
-      this.api.apisauce.setHeader('Authorization', `Bearer ${accessToken}`)
-    });
   }
 
   async transactionDetail(id: string): Promise<TransactionResult> {
@@ -36,6 +31,9 @@ export class TransactionApi {
 
   async newPurchase(data: any): Promise<TransactionResult> {
     try {
+      this.api.apisauce.deleteHeader("Authorization");
+      const token = await loadString("accessToken");
+      this.api.apisauce.setHeader("Authorization", "Bearer " + token );
       const response: ApiResponse<any> = await this.api.apisauce.post(
         "api/account/Transaction/new",
         {
@@ -58,6 +56,9 @@ export class TransactionApi {
 
   async newIncome(data: any): Promise<TransactionResult> {
     try {
+      this.api.apisauce.deleteHeader("Authorization");
+      const token = await loadString("accessToken");
+      this.api.apisauce.setHeader("Authorization", "Bearer " + token );
       const response: ApiResponse<any> = await this.api.apisauce.post(
         "api/account/Transaction/new",
         {
@@ -83,6 +84,9 @@ export class TransactionApi {
       var dt = new Date(dateFormat)
       dt.setHours(0, 0, 0)
       var date = new Date(dt).toLocaleDateString("en-CA")
+      this.api.apisauce.deleteHeader("Authorization");
+      const token = await loadString("accessToken");
+      this.api.apisauce.setHeader("Authorization", "Bearer " + token );
       const response: ApiResponse<any> = await this.api.apisauce.post(
         "/api/account/Transaction/filtered",
         {
@@ -95,8 +99,6 @@ export class TransactionApi {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
       }
-      console.log("chegou aqui no transactions")
-      console.log(transactions)
       return { kind: "ok", transactions: transactions }
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
@@ -106,6 +108,9 @@ export class TransactionApi {
 
   async transactionUpdate(id: number, authorized: boolean): Promise<TransactionsResult> {
     try {
+      this.api.apisauce.deleteHeader("Authorization");
+      const token = await loadString("accessToken");
+      this.api.apisauce.setHeader("Authorization", "Bearer " + token );
       const response: ApiResponse<any> = await this.api.apisauce.post(
         "/api/account/Transaction/update",
         {
